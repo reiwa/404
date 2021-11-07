@@ -1,19 +1,16 @@
-import { Head, ErrorComponent } from "blitz"
+import { BoxPageError404 } from "app/core/components/BoxPageError404"
+import { BlitzPage, Head } from "blitz"
+import React from "react"
 
-// ------------------------------------------------------
-// This page is rendered if a route match is not found
-// ------------------------------------------------------
-export default function Page404() {
-  const statusCode = 404
-  const title = "This page could not be found"
+const Page404: BlitzPage = () => {
   return (
     <>
       <Head>
-        <title>
-          {statusCode}: {title}
-        </title>
+        <title>{"404.Fish"}</title>
       </Head>
-      <ErrorComponent statusCode={statusCode} title={title} />
+      <BoxPageError404 />
     </>
   )
 }
+
+export default Page404

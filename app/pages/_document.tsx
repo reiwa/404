@@ -1,16 +1,21 @@
-import { Document, Html, DocumentHead, Main, BlitzScript /*DocumentContext*/ } from "blitz"
+import { BlitzScript, Document, DocumentHead, Html, Main } from "blitz"
 
 class MyDocument extends Document {
-  // Only uncomment if you need to customize this behaviour
-  // static async getInitialProps(ctx: DocumentContext) {
-  //   const initialProps = await Document.getInitialProps(ctx)
-  //   return {...initialProps}
-  // }
-
   render() {
+    const fontURL =
+      "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap"
+
     return (
-      <Html lang="en">
-        <DocumentHead />
+      <Html lang={"ja"}>
+        <DocumentHead>
+          <link rel={"preconnect"} href={"https://fonts.googleapis.com"} />
+          <link
+            rel={"preconnect"}
+            href={"https://fonts.gstatic.com"}
+            crossOrigin={""}
+          />
+          <link href={fontURL} rel={"stylesheet"} />
+        </DocumentHead>
         <body>
           <Main />
           <BlitzScript />

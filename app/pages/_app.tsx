@@ -1,24 +1,28 @@
-import {
-  AppProps,
-  ErrorBoundary,
-  ErrorComponent,
-  ErrorFallbackProps,
-  useQueryErrorResetBoundary,
-} from "blitz"
+import { ChakraProvider } from "@chakra-ui/react"
+import { ErrorBoundary as SentryErrorBoundary } from "@sentry/react"
+import { BoxPageErrorFallback } from "app/core/components/BoxPageErrorFallback"
+import { theme } from "app/core/theme/theme"
+import { AppProps, ErrorBoundary, useQueryErrorResetBoundary } from "blitz"
+import "integrations/errors"
+import React, { FunctionComponent } from "react"
 
-export default function App({ Component, pageProps }: AppProps) {
+const App: FunctionComponent<AppProps> = ({ Component, ...props }) => {
   const getLayout = Component.getLayout || ((page) => page)
 
+  const queryErrorResetBoundary = useQueryErrorResetBoundary()
+
   return (
-    <ErrorBoundary
-      FallbackComponent={RootErrorFallback}
-      onReset={useQueryErrorResetBoundary().reset}
-    >
-      {getLayout(<Component {...pageProps} />)}
-    </ErrorBoundary>
+    <SentryErrorBoundary>
+      <ErrorBoundary
+        FallbackComponent={BoxPageErrorFallback}
+        onReset={queryErrorResetBoundary.reset}
+      >
+        <ChakraProvider theme={theme}>
+          {getLayout(<Component {...props.pageProps} />)}
+        </ChakraProvider>
+      </ErrorBoundary>
+    </SentryErrorBoundary>
   )
 }
 
-function RootErrorFallback({ error }: ErrorFallbackProps) {
-  return <ErrorComponent statusCode={error.statusCode || 400} title={error.message || error.name} />
-}
+export default App
