@@ -3,5 +3,27 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.exclude": {
+    "**/node_modules": true,
+    ".idea": true,
+    ".husky": true,
+    ".firebase": true,
+    ".tsbuildinfo": true,
+    ".blitz": true,
+    "yarn-error.log": true,
+    "yarn.lock": true,
+    ".blitz.config.compiled.js": true,
+    ".next": true
+  },
+  "files.associations": {
+    "*.xml": "html",
+    "*.svg": "html"
+  },
+  "search.exclude": {
+    "yarn.lock": true
+  },
+  "deno.enable": false
 }
