@@ -1,0 +1,35 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+model Shot {
+  id        String   @id @map("id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  title     String   @map("title")
+  hostname  String   @unique @map("hostname")
+  files     File[]   @relation("shot_files")
+
+  @@map("shots")
+}
+
+model File {
+  id        String   @id @map("id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  width     Int      @map("width")
+  height    Int      @map("height")
+  bucketId  String   @map("bucket_id")
+  url       String   @map("url")
+  shotId    String   @map("shot_id")
+  shot      Shot     @relation("shot_files", fields: [shotId], references: [id])
+
+  @@unique([shotId, width, height])
+  @@map("files")
+}
