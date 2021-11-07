@@ -1,13 +1,16 @@
 import { BlitzConfig } from "blitz"
 
-const config: BlitzConfig = {
-  /* Uncomment this to customize the webpack config
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Note: we provide webpack above so you should not `require` it
-    // Perform customizations to webpack config
-    // Important: return the modified config
-    return config
-  },
-  */
+if (typeof process.env.SUPABASE_URL === "undefined") {
+  throw new Error("Missing environment variable SUPABASE_URL")
 }
+
+const supabaseURL = new URL(process.env.SUPABASE_URL)
+
+const config: BlitzConfig = {
+  log: { level: "error" },
+  images: {
+    domains: [supabaseURL.host],
+  },
+}
+
 module.exports = config
