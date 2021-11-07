@@ -10,28 +10,54 @@
     "test:watch": "jest --watch",
     "prepare": "husky install"
   },
+  "dependencies": {
+    "@chakra-ui/react": "1.6.12",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@hookform/resolvers": "2.8.3",
+    "@prisma/client": "3.4.1",
+    "@sentry/node": "6.14.1",
+    "@sentry/react": "6.14.1",
+    "@sentry/tracing": "6.14.1",
+    "@supabase/supabase-js": "1.25.2",
+    "@types/puppeteer": "5.4.4",
+    "blitz": "0.41.0",
+    "framer-motion": "^4",
+    "nanoid": "3.1.30",
+    "puppeteer": "11.0.0",
+    "react": "alpha",
+    "react-dom": "alpha",
+    "react-hook-form": "7.19.1",
+    "reflect-metadata": "0.1.13",
+    "tsyringe": "4.6.0",
+    "zod": "3.11.6"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-decorators": "7.16.0",
+    "@types/react": "17.0.34",
+    "babel-plugin-transform-typescript-metadata": "0.3.2",
+    "eslint": "7.32.0",
+    "husky": "7.0.4",
+    "lint-staged": "11.2.6",
+    "prettier": "2.4.1",
+    "prettier-plugin-organize-imports": "2.3.4",
+    "prettier-plugin-prisma": "3.3.0",
+    "pretty-quick": "3.1.1",
+    "prisma": "3.4.1",
+    "supabase": "0.5.0",
+    "typescript": "~4.4"
+  },
   "prettier": {
     "semi": false,
-    "printWidth": 100
+    "trailingComma": "es5"
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "eslint --fix"
     ]
   },
-  "dependencies": {
-    "blitz": "0.42.0",
-    "react-dom": "18.0.0-alpha-5ca4b0433-20211020",
-    "react": "18.0.0-alpha-5ca4b0433-20211020"
-  },
-  "devDependencies": {
-    "@types/react": "17.0.34",
-    "eslint": "7.32.0",
-    "husky": "7.0.4",
-    "lint-staged": "11.2.6",
-    "prettier": "2.4.1",
-    "pretty-quick": "3.1.1",
-    "typescript": "~4.4"
+  "prisma": {
+    "schema": "db/schema.prisma"
   },
   "private": true
 }
