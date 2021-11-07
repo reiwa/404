@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "blitz dev",
-    "build": "NODE_ENV=production blitz build && blitz prisma migrate deploy",
+    "build": "blitz build",
     "start": "blitz start",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "jest",
