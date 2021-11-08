@@ -7,6 +7,12 @@ import { injectable } from "tsyringe"
 @injectable()
 export class SnapshotAdapter {
   async capture(props: { fileId: Id; url: Url }) {
+    const puppeteer = require("puppeteer-core")
+    const chrome = require("chrome-aws-lambda")
+
+    console.log(puppeteer)
+    console.log(chrome)
+
     try {
       // const browser = await puppeteer.launch({
       //   args: chrome.args,
