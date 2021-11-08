@@ -1,32 +1,26 @@
 import { captureException } from "@sentry/node"
-import { Id, Url } from "integrations/domain"
+import axios from "axios"
+import fs from "fs/promises"
+import { Id } from "integrations/domain"
+import { tmpdir } from "os"
 import { injectable } from "tsyringe"
 
 @injectable()
 export class SnapshotAdapter {
-  async capture(props: { fileId: Id; url: Url }) {
+  async capture(props: { fileId: Id; hostname: string }) {
     try {
-      // const browser = await puppeteer.launch({
-      //   args: chrome.args,
-      //   executablePath: await chrome.executablePath,
-      //   headless: chrome.headless,
-      //   defaultViewport: {
-      //     width: 1024,
-      //     height: 1024,
-      //   },
-      // })
+      const response = await axios.request({
+        baseURL: "https://snapshot-weld.vercel.app/api",
+        url: `${props.hostname}/404/404`,
+        method: "GET",
+        responseType: "arraybuffer",
+      })
 
-      // const page = await browser.newPage()
+      console.log(response.data)
 
-      // const url = `${props.url.value}/404/404`
+      const filePath = `${tmpdir()}/${props.fileId.value}.png`
 
-      // await page.goto(url, { waitUntil: "networkidle0" })
-
-      // const filePath = `${tmpdir()}/${props.fileId.value}.png`
-
-      // await page.screenshot({ path: filePath })
-
-      // await browser.close()
+      await fs.writeFile(filePath, response.data, "binary")
 
       return null
     } catch (error) {

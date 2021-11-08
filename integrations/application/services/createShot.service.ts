@@ -40,7 +40,7 @@ export class CreateShotService {
 
       const capture = await this.snapshotAdapter.capture({
         fileId,
-        url: props.url,
+        hostname: props.url.hostname,
       })
 
       if (capture instanceof Error) {
