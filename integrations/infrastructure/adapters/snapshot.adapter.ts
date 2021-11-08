@@ -10,7 +10,8 @@ export class SnapshotAdapter {
   async capture(props: { fileId: Id; hostname: string }) {
     try {
       const response = await axios.request({
-        baseURL: "https://snapshot-weld.vercel.app/api",
+        baseURL:
+          "https://asia-northeast1-nni6wgvjdueqtcdmbcln.cloudfunctions.net/snapshot",
         url: `${props.hostname}/404/404`,
         method: "GET",
         responseType: "arraybuffer",
