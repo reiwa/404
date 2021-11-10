@@ -49,6 +49,14 @@ const images: BlitzApiHandler = async (req, resp) => {
       return
     }
 
+    const data = response.data as Buffer
+
+    if (data.byteLength === 0) {
+      resp.writeHead(500)
+      resp.end()
+      return
+    }
+
     const buffer = await sharp(response.data)
       .resize({ width })
       .png({ quality })

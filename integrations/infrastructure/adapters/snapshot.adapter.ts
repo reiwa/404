@@ -21,6 +21,10 @@ export class SnapshotAdapter {
         responseType: "arraybuffer",
       })
 
+      if (response.status !== 200) {
+        return new Error()
+      }
+
       const filePath = `${tmpdir()}/${props.fileId.value}.png`
 
       await fs.writeFile(filePath, response.data, "binary")

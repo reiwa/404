@@ -42,13 +42,18 @@ const screenshot: BlitzApiHandler = async (req, resp) => {
 
     const file = await fs.readFile(filePath)
 
+    if (file.byteLength === 0) {
+      resp.status(500).end()
+      return
+    }
+
     resp.writeHead(200, { "Content-Type": "image/jpeg" })
 
     resp.end(file)
   } catch (error) {
     console.error(error)
 
-    resp.end()
+    resp.status(500).end()
   }
 }
 
