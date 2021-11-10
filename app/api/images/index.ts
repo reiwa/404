@@ -11,10 +11,14 @@ import sharp from "sharp"
  */
 const images: BlitzApiHandler = async (req, resp) => {
   try {
+    console.log(req.url)
+
     if (typeof req.url === "undefined") {
       resp.end()
       return
     }
+
+    // const url = req.url.startsWith("/") ? `https://404.fish${req.url}` : req.url
 
     const paths = req.url.split("/")
 
