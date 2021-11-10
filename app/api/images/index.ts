@@ -11,25 +11,24 @@ import sharp from "sharp"
  */
 const images: BlitzApiHandler = async (req, resp) => {
   try {
-    console.log(req.url)
-
-    if (typeof req.url === "undefined") {
+    if (typeof req.query.url !== "string") {
+      resp.writeHead(500, { "Content-Type": "image/jpeg" })
       resp.end()
       return
     }
 
-    // const url = req.url.startsWith("/") ? `https://404.fish${req.url}` : req.url
+    const url = !req.query.url.startsWith("http")
+      ? `https://404.fish${req.query.url}`
+      : req.query.url + ""
 
-    const paths = req.url.split("/")
+    const fileId = Buffer.from(req.query.url + "").toString("base64")
 
-    const fileId = paths[paths.length - 1] ?? ""
-
-    const filePath = `${os.tmpdir()}/${Buffer.from(fileId).toString("base64")}`
+    const filePath = `${os.tmpdir()}/${fileId}`
 
     const cache = await readCache(filePath)
 
     if (cache !== null) {
-      resp.writeHead(200, { "Content-Type": "image/jpeg" })
+      resp.writeHead(200, { "Content-Type": "image/png" })
       resp.end(cache)
       return
     }
@@ -39,25 +38,33 @@ const images: BlitzApiHandler = async (req, resp) => {
     const quality = typeof req.query.q === "string" ? parseInt(req.query.q) : 75
 
     const response = await axios.request({
-      url: req.query.url + "",
+      url: url,
       method: "GET",
       responseType: "arraybuffer",
     })
 
+    if (response.status !== 200) {
+      resp.writeHead(500)
+      resp.end()
+      return
+    }
+
     const buffer = await sharp(response.data)
       .resize({ width })
-      .jpeg({ quality })
+      .png({ quality })
       .toBuffer()
 
     await writeCache(filePath, buffer)
 
-    resp.writeHead(200, { "Content-Type": "image/jpeg" })
+    resp.writeHead(200, { "Content-Type": "image/png" })
 
     resp.end(buffer)
   } catch (error) {
     console.error(error)
 
+    resp.writeHead(500)
     resp.end()
+    return
   }
 }
 
