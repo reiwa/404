@@ -10,6 +10,7 @@ const config: BlitzConfig = {
   log: { level: "error" },
   images: {
     domains: [supabaseURL.host],
+    path: "/api/images",
   },
 }
 

@@ -16,7 +16,7 @@ export class SnapshotAdapter {
 
       const response = await axios.request({
         baseURL: baseURL,
-        url: `${props.hostname}/404/404`,
+        url: `snapshot/${props.hostname}/404/404`,
         method: "GET",
         responseType: "arraybuffer",
       })
