@@ -1,6 +1,5 @@
+import { BlitzApiHandler } from "blitz"
 import chrome from "chrome-aws-lambda"
-import type express from "express"
-import { https, region } from "firebase-functions"
 import fs from "fs/promises"
 import { nanoid } from "nanoid"
 import { tmpdir } from "os"
@@ -13,9 +12,29 @@ let page: puppeteer.Page | null = null
  * @param req
  * @param resp
  */
-const handler = async (req: https.Request, resp: express.Response) => {
+const screenshot: BlitzApiHandler = async (req, resp) => {
   try {
-    const path = req.params["0"]
+    const routes = req.query.routes
+
+    if (typeof routes === "string" || typeof routes === "undefined") {
+      return
+    }
+
+    const path = routes.join("/")
+
+    if (page === null && process.env.NODE_ENV !== "production") {
+      const puppeteer = require("puppeteer")
+
+      const browser = await puppeteer.launch({
+        headless: true,
+        defaultViewport: {
+          width: 1024,
+          height: 1024,
+        },
+      })
+
+      page = await browser.newPage()
+    }
 
     if (page === null) {
       const browser = await puppeteer.launch({
@@ -51,6 +70,4 @@ const handler = async (req: https.Request, resp: express.Response) => {
   }
 }
 
-export const snapshot = region("asia-northeast1")
-  .runWith({ memory: "2GB", timeoutSeconds: 540 })
-  .https.onRequest(handler)
+export default screenshot

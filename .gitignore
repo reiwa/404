@@ -1,6 +1,3 @@
-# Firebase
-/lib
-
 # dependencies
 node_modules
 .yarn/cache

@@ -8,9 +8,7 @@
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prepare": "husky install",
-    "build:functions": "rm -rf lib && babel functions --out-dir lib --extensions .ts",
-    "build:functions:watch": "rm -rf lib && babel functions --out-dir lib --extensions .ts -w"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@chakra-ui/react": "1.6.12",
@@ -26,8 +24,6 @@
     "blitz": "0.41.0",
     "chrome-aws-lambda": "^10.1.0",
     "express": "^4.17.1",
-    "firebase-admin": "^10.0.0",
-    "firebase-functions": "^3.16.0",
     "framer-motion": "^4",
     "nanoid": "3.1.30",
     "puppeteer-core": "11.0.0",
@@ -40,12 +36,12 @@
     "zod": "3.11.6"
   },
   "devDependencies": {
+    "puppeteer": "11.0.0",
     "@babel/cli": "7.16.0",
     "@babel/plugin-proposal-decorators": "7.16.0",
     "@types/react": "17.0.34",
     "babel-plugin-transform-typescript-metadata": "0.3.2",
     "eslint": "7.32.0",
-    "firebase-tools": "9.22.0",
     "husky": "7.0.4",
     "lint-staged": "11.2.6",
     "prettier": "2.4.1",

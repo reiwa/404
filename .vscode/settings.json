@@ -10,7 +10,6 @@
     "**/node_modules": true,
     ".idea": true,
     ".husky": true,
-    ".firebase": true,
     ".tsbuildinfo": true,
     ".blitz": true,
     "yarn-error.log": true,

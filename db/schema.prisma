@@ -15,6 +15,7 @@ model Shot {
   title     String   @map("title")
   hostname  String   @unique @map("hostname")
   files     File[]   @relation("shot_files")
+  isBlocked Boolean  @default(false) @map("is_blocked")
 
   @@map("shots")
 }
