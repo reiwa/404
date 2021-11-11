@@ -8,6 +8,10 @@ type Props = {
 }
 
 export const BoxShot: FunctionComponent<Props> = (props) => {
+  if (props.shot.file === null) {
+    return <Box display={"flex"}></Box>
+  }
+
   return (
     <Box display={"flex"}>
       <Image

@@ -7,5 +7,5 @@ export type AppShotMinimal = {
     width: number
     height: number
     url: string
-  }
+  } | null
 }

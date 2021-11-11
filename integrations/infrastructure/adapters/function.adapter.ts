@@ -5,17 +5,19 @@ import { injectable } from "tsyringe"
 
 @injectable()
 export class FunctionAdapter {
-  async createFile(props: { url: Url; shotId: Id }) {
+  async screenshot(props: { url: Url; shotId: Id }) {
     try {
-      const baseURL = "https://404.fish/api"
+      const baseURL =
+        "https://asia-northeast1-c2syk4blrzpbw4nptck4.cloudfunctions.net"
 
       axios.request({
         baseURL,
-        url: "createFile",
+        url: `screenshot/${props.url.hostname}`,
         method: "POST",
         data: {
-          url: props.url,
-          shotId: props.shotId,
+          width: 1024,
+          height: 1024,
+          callbackURL: `https://404.fish/api/screenshot/${props.shotId.value}`,
         },
       })
 

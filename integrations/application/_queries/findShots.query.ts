@@ -29,11 +29,16 @@ export class FindShotsQuery {
         include: { files: true },
       })
 
-      const shots = prismaShots.map((prismaShot) => {
+      const shots = prismaShots.map((prismaShot): AppShotMinimal => {
         const [file] = prismaShot.files
 
         if (typeof file === "undefined") {
-          return null
+          return {
+            id: prismaShot.id,
+            title: prismaShot.title,
+            hostname: prismaShot.hostname,
+            file: null,
+          }
         }
 
         return {
@@ -49,9 +54,7 @@ export class FindShotsQuery {
         }
       })
 
-      return shots.filter((shot): shot is AppShotMinimal => {
-        return shot !== null
-      })
+      return shots
     } catch (error) {
       captureException(error)
 

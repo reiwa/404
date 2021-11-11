@@ -1,15 +1,11 @@
 import { captureException } from "@sentry/node"
-import { FileFactory, Id, IdFactory, Url } from "integrations/domain"
+import { FileFactory, Id, IdFactory } from "integrations/domain"
 import { InternalError } from "integrations/errors"
-import {
-  FileRepository,
-  SnapshotAdapter,
-  StorageAdapter,
-} from "integrations/infrastructure"
+import { FileRepository, StorageAdapter } from "integrations/infrastructure"
 import { injectable } from "tsyringe"
 
 type Props = {
-  url: Url
+  file: Buffer
   shotId: Id
 }
 
@@ -17,7 +13,6 @@ type Props = {
 export class CreateFileService {
   constructor(
     private readonly storageAdapter: StorageAdapter,
-    private readonly snapshotAdapter: SnapshotAdapter,
     private readonly fileRepository: FileRepository
   ) {}
 
@@ -25,20 +20,12 @@ export class CreateFileService {
     try {
       const fileId = IdFactory.create()
 
-      const capture = await this.snapshotAdapter.capture({
-        fileId,
-        hostname: props.url.hostname,
-      })
-
-      if (capture instanceof Error) {
-        return new InternalError(capture.message)
-      }
-
       const bucketId = new Id("default")
 
       const upload = await this.storageAdapter.upload({
         fileId,
         bucketId,
+        file: props.file,
       })
 
       if (upload instanceof Error) {

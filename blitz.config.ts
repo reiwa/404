@@ -8,10 +8,7 @@ const supabaseURL = new URL(process.env.SUPABASE_URL)
 
 const config: BlitzConfig = {
   log: { level: "error" },
-  images: {
-    domains: [supabaseURL.host],
-    path: "/api/images",
-  },
+  images: { domains: [supabaseURL.host] },
 }
 
 module.exports = config
