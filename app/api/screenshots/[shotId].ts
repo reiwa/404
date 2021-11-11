@@ -1,6 +1,8 @@
+import { withSentryForApiHandler } from "app/core/utils/withSentryForApiHandler"
 import { BlitzApiHandler } from "blitz"
 import { CreateFileService } from "integrations/application"
 import { Id } from "integrations/domain"
+import "reflect-metadata"
 import { container } from "tsyringe"
 
 /**
@@ -41,4 +43,4 @@ const screenshot: BlitzApiHandler = async (req, resp) => {
   }
 }
 
-export default screenshot
+export default withSentryForApiHandler(screenshot, "screenshot")

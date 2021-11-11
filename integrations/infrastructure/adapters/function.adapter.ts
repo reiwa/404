@@ -17,7 +17,7 @@ export class FunctionAdapter {
         data: {
           width: 1024,
           height: 1024,
-          callbackURL: `https://404.fish/api/screenshot/${props.shotId.value}`,
+          callbackURL: `https://404.fish/api/screenshots/${props.shotId.value}`,
         },
       })
 
