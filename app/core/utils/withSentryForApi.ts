@@ -10,10 +10,7 @@ import { BlitzApiHandler } from "blitz"
 import "reflect-metadata"
 import packageJSON from "../../../package.json"
 
-export const withSentryForApiHandler = (
-  handler: BlitzApiHandler,
-  name: string
-) => {
+export const withSentryForApi = (handler: BlitzApiHandler, name: string) => {
   if (process.env.NODE_ENV === "production") {
     init({
       dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,

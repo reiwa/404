@@ -1,4 +1,5 @@
-import { withSentryForApiHandler } from "app/core/utils/withSentryForApiHandler"
+import { captureException } from "@sentry/node"
+import { withSentryForApi } from "app/core/utils/withSentryForApi"
 import { BlitzApiHandler } from "blitz"
 import { CreateFileService } from "integrations/application"
 import { Id } from "integrations/domain"
@@ -12,17 +13,11 @@ import { container } from "tsyringe"
  */
 const screenshot: BlitzApiHandler = async (req, resp) => {
   try {
-    console.log("query", req.query)
+    const shotId = req.query.shotId
 
-    const routes = req.query.routes
+    if (typeof shotId !== "string") {
+      resp.status(500).end()
 
-    if (typeof routes === "string" || typeof routes === "undefined") {
-      return
-    }
-
-    const [shotId] = routes
-
-    if (typeof shotId === "undefined") {
       return
     }
 
@@ -37,10 +32,12 @@ const screenshot: BlitzApiHandler = async (req, resp) => {
 
     resp.end(file)
   } catch (error) {
+    captureException(error)
+
     console.error(error)
 
     resp.status(500).end()
   }
 }
 
-export default withSentryForApiHandler(screenshot, "screenshot")
+export default withSentryForApi(screenshot, "screenshot")
