@@ -1,10 +1,12 @@
 import { captureException } from "@sentry/node"
 import { withSentryForApi } from "app/core/utils/withSentryForApi"
 import { BlitzApiHandler } from "blitz"
-import { CreateFileService } from "integrations/application"
-import { Id } from "integrations/domain"
+import formidable from "formidable"
 import "reflect-metadata"
-import { container } from "tsyringe"
+
+export const config = {
+  api: { bodyParser: false },
+}
 
 /**
  * https://github.com/vercel/vercel/issues/4739
@@ -21,16 +23,33 @@ const screenshot: BlitzApiHandler = async (req, resp) => {
       return
     }
 
-    const file = req.body as Buffer
+    const incomingForm = formidable({})
 
-    const createFileService = container.resolve(CreateFileService)
+    const files = await new Promise<formidable.Files>((resolve, reject) => {
+      incomingForm.parse(req, (err, fields, files) => {
+        if (err) {
+          reject(err)
+          return
+        }
 
-    await createFileService.execute({
-      file,
-      shotId: new Id(shotId),
+        console.log(fields)
+
+        resolve(files)
+      })
     })
 
-    resp.end(file)
+    console.log("files")
+
+    console.log(files)
+
+    // const createFileService = container.resolve(CreateFileService)
+
+    // await createFileService.execute({
+    //   file,
+    //   shotId: new Id(shotId),
+    // })
+
+    resp.status(200).end()
   } catch (error) {
     captureException(error)
 
