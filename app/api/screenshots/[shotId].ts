@@ -25,7 +25,7 @@ const screenshot: BlitzApiHandler = async (req, resp) => {
 
     const createFileService = container.resolve(CreateFileService)
 
-    createFileService.execute({
+    await createFileService.execute({
       file,
       shotId: new Id(shotId),
     })
