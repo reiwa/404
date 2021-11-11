@@ -30,10 +30,7 @@ const screenshot: BlitzApiHandler = async (req, resp) => {
       method: "GET",
       url: req.body.url,
       responseType: "arraybuffer",
-      headers: { "Content-Type": "image/png" },
     })
-
-    console.log(response.data)
 
     const createFileService = container.resolve(CreateFileService)
 
@@ -46,7 +43,9 @@ const screenshot: BlitzApiHandler = async (req, resp) => {
   } catch (error) {
     captureException(error)
 
-    console.error(error)
+    if (error instanceof Error) {
+      console.error(error.message)
+    }
 
     resp.status(500).end()
   }
