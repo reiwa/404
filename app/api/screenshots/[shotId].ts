@@ -1,11 +1,14 @@
 import { captureException } from "@sentry/node"
 import { withSentryForApi } from "app/core/utils/withSentryForApi"
+import axios from "axios"
 import { BlitzApiHandler } from "blitz"
-import formidable from "formidable"
+import { CreateFileService } from "integrations/application"
+import { Id } from "integrations/domain"
 import "reflect-metadata"
+import { container } from "tsyringe"
 
 export const config = {
-  api: { bodyParser: false },
+  api: { bodyParser: true },
 }
 
 /**
@@ -23,36 +26,21 @@ const screenshot: BlitzApiHandler = async (req, resp) => {
       return
     }
 
-    const incomingForm = new formidable.IncomingForm({ keepExtensions: true })
-
-    await new Promise<{
-      fields: formidable.Fields
-      files: formidable.Files
-    }>((resolve, reject) => {
-      incomingForm.parse(req, (err, fields, files) => {
-        if (err) {
-          reject(err)
-          return
-        }
-
-        console.log(fields)
-
-        console.log(files)
-
-        console.log(Object.values(fields))
-
-        console.log(Object.values(files))
-
-        resolve({ fields, files })
-      })
+    const response = await axios.request({
+      method: "GET",
+      url: req.body.url,
+      responseType: "arraybuffer",
+      headers: { "Content-Type": "image/png" },
     })
 
-    // const createFileService = container.resolve(CreateFileService)
+    console.log(response.data)
 
-    // await createFileService.execute({
-    //   file,
-    //   shotId: new Id(shotId),
-    // })
+    const createFileService = container.resolve(CreateFileService)
+
+    await createFileService.execute({
+      file: response.data,
+      shotId: new Id(shotId),
+    })
 
     resp.status(200).end()
   } catch (error) {
