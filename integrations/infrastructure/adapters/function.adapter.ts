@@ -12,7 +12,7 @@ export class FunctionAdapter {
 
       axios.request({
         baseURL,
-        url: `screenshot/${props.url.hostname}`,
+        url: `screenshot/${props.url.hostname}/404/404`,
         method: "POST",
         data: {
           width: 1024,
