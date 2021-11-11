@@ -23,9 +23,12 @@ const screenshot: BlitzApiHandler = async (req, resp) => {
       return
     }
 
-    const incomingForm = formidable({})
+    const incomingForm = new formidable.IncomingForm({ keepExtensions: true })
 
-    const files = await new Promise<formidable.Files>((resolve, reject) => {
+    await new Promise<{
+      fields: formidable.Fields
+      files: formidable.Files
+    }>((resolve, reject) => {
       incomingForm.parse(req, (err, fields, files) => {
         if (err) {
           reject(err)
@@ -34,13 +37,15 @@ const screenshot: BlitzApiHandler = async (req, resp) => {
 
         console.log(fields)
 
-        resolve(files)
+        console.log(files)
+
+        console.log(Object.values(fields))
+
+        console.log(Object.values(files))
+
+        resolve({ fields, files })
       })
     })
-
-    console.log("files")
-
-    console.log(files)
 
     // const createFileService = container.resolve(CreateFileService)
 
